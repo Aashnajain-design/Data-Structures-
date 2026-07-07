@@ -1,0 +1,71 @@
+// max depth of binary tree
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null) return 0;
+        return 1 + Math.max(maxDepth(root.left) , maxDepth(root.right));
+    }
+}
+
+//same tree
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+       if(p==null && q==null) return true;
+       if(p==null || q==null) return false;
+       if(p.val!=q.val) return false;
+       return isSameTree(p.left , q.left) && isSameTree(p.right , q.right);
+    }
+}
+
+//symmetric tree
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        return isMirror(root.left, root.right);
+    }
+
+    public boolean isMirror(TreeNode left, TreeNode right) {
+        
+        if(left == null && right == null) return true;
+        
+        if(left == null || right == null) return false;
+
+        if(left.val != right.val) return false;
+
+        return isMirror(left.left, right.right) &&
+               isMirror(left.right, right.left);
+    }
+}
+
+//diameter of binary tree
+class Solution {
+ int d=0;
+    public int diameterOfBinaryTree(TreeNode root) {
+       
+        height(root);
+        return d;
+    }
+    int height(TreeNode root){
+        if(root==null) return 0;
+        int l = height(root.left);
+        int r = height(root.right);
+        d = Math.max(d , l+r);
+        return 1+ Math.max(l , r);
+    }
+}
+
+//maximum path sum
+class Solution {
+    int max = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        path(root);
+        return max;
+    }
+    int path(TreeNode root){
+        if(root==null) return 0;
+        int l = Math.max(0 , path(root.left));
+        int r = Math.max(0 , path(root.right));
+        max = Math.max(max , root.val + l + r);
+        return root.val + Math.max(l , r);
+    }
+}
