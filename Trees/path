@@ -1,0 +1,60 @@
+// path sum
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if( root == null ) return false;
+        if( root.left == null && root.right == null ){
+            if( targetSum  == root.val ){
+                return true;
+            } else {
+                return false; 
+            }
+           
+        }
+         return hasPathSum( root.left , targetSum - root.val ) || hasPathSum( root.right , targetSum - root.val );
+    }
+}
+
+//path sum 2
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>>ans = new ArrayList<>();
+        List<Integer>temp = new ArrayList<>();
+        dfs( root , temp , ans , targetSum );
+        return ans;
+    }
+    void dfs( TreeNode root , List<Integer>temp , List<List<Integer>>ans , int targetSum ){
+        if( root == null ) return;
+        temp.add ( root.val );
+        if( root.left == null && root.right == null && targetSum == root.val ){
+            ans.add( new ArrayList<>(temp) );
+
+        }
+        dfs( root.left , temp , ans , targetSum - root.val );
+        dfs( root.right , temp , ans , targetSum - root.val);
+        temp.remove( temp.size()-1 );
+    }
+}
+
+//lca
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       if(root==null) return null;
+       if(root==p || root==q) return root;
+       boolean left = exists(root.left , p);
+       boolean right = exists(root.left , q);
+       if(left && right){
+        return lowestCommonAncestor(root.left , p , q);
+       } 
+       if(!left && !right){
+        return lowestCommonAncestor(root.right , p , q);
+       }else{
+        return root;
+       }
+    }
+    boolean exists(TreeNode root , TreeNode val){
+        if(root==null) return false;
+        if(root==val) return true;
+        return exists(root.left , val) || exists(root.right , val);
+
+    }
+}
